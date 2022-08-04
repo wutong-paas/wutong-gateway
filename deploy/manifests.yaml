@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: wutong
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: gateway-sa
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: gateway-sa
+    namespace: wutong
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gateway-sa
+  namespace: wutong
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: gateway
+  namespace: wutong
+spec:
+  selector:
+    matchLabels:
+      app: gateway
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      tolerations:
+        # this toleration is to have the daemonset runnable on master nodes
+        # remove it if your masters can't run pods
+        - key: node-role.kubernetes.io/master
+          effect: NoSchedule
+      serviceAccount: gateway-sa
+      dnsPolicy: ClusterFirstWithHostNet
+      hostNetwork: true
+      restartPolicy: Always
+      containers:
+        - name: gateway
+          image: wutongpaas/wutong-gateway:v0.1.0
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          securityContext:
+            privileged: true
