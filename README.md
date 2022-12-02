@@ -4,6 +4,7 @@ Wutong Gateway 是一款基于 Openresty 的 Ingress Controller。
 实现通过 http，tcp 方式将流量转发到位于 Kubernetes 的 Service 中。
 ## 安装
 ```bash
+kubectl create namespace wt-system
 kubectl apply -f https://raw.githubusercontent.com/wutong-paas/wutong-gateway/master/deploy/manifests.yaml
 ```
 ## 使用示例

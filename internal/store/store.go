@@ -152,7 +152,7 @@ const ingressClassName = "wutong-gateway"
 
 func isEffectivedIngress(ing interface{}) bool {
 	if ingress, ok := ing.(*networkingv1.Ingress); ok {
-		return *ingress.Spec.IngressClassName == ingressClassName
+		return ingress.Spec.IngressClassName != nil && *ingress.Spec.IngressClassName == ingressClassName
 	} else if ingress, ok := ing.(*betav1.Ingress); ok {
 		if class, ok := ingress.Annotations["kubernetes.io/ingress.class"]; ok {
 			return class == ingressClassName
