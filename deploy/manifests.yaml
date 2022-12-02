@@ -21,7 +21,7 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: gateway
-  namespace: wutong
+  namespace: wt-system
 spec:
   selector:
     matchLabels:
