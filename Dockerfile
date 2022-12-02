@@ -5,11 +5,18 @@ ENV GOPROXY=https://goproxy.cn
 RUN CGO_ENABLED=1 go build -o /wutong-gateway cmd/gateway.go
 
 FROM wutongpaas/openresty:1.19.3.2-alpine
+ARG TARGETARCH
+
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && apk add --no-cache bash net-tools curl tzdata && \
         cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
         echo "Asia/Shanghai" >  /etc/timezone && \
         date && apk del --no-cache tzdata
 COPY ./hack/ /run/
+
+RUN set -eux; \
+    if [ "${TARGETARCH}" = "arm64" ]; then \
+        wget https://wutong-paas.obs.cn-east-3.myhuaweicloud.com/arm/librestychash.so -O /run/nginx/lua/vendor/so/librestychash.so; \
+    fi
 COPY --from=builder /wutong-gateway /wutong-gateway
 
 ENV NGINX_CONFIG_TMPL=/run/nginxtmp
