@@ -115,8 +115,8 @@ func (c *Condition) Equals(cc *Condition) bool {
 	return true
 }
 
-func newFakeLocation() *Location {
-	return &Location{
-		Path: "foo-path",
-	}
-}
+// func newFakeLocation() *Location {
+// 	return &Location{
+// 		Path: "foo-path",
+// 	}
+// }

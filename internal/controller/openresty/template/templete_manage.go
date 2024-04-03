@@ -20,7 +20,6 @@ package template
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"path"
@@ -43,8 +42,8 @@ var (
 	defBufferSize = 65535
 )
 
-//NginxConfigFileTemplete nginx config file manage
-//write by templete
+// NginxConfigFileTemplete nginx config file manage
+// write by templete
 type NginxConfigFileTemplete struct {
 	templeteFileDirPath string
 	configFileDirPath   string
@@ -54,7 +53,7 @@ type NginxConfigFileTemplete struct {
 	writeLocks          map[string]*sync.Mutex
 }
 
-//NewNginxConfigFileTemplete new nginx config file manage
+// NewNginxConfigFileTemplete new nginx config file manage
 func NewNginxConfigFileTemplete() (*NginxConfigFileTemplete, error) {
 	var configFileDirPath = "/run/nginx/conf"
 	if envConfigFileDirPath := os.Getenv("NGINX_CUSTOM_CONFIG"); envConfigFileDirPath != "" {
@@ -86,12 +85,12 @@ func NewNginxConfigFileTemplete() (*NginxConfigFileTemplete, error) {
 	}, nil
 }
 
-//GetConfigFileDirPath get configfile dir path
+// GetConfigFileDirPath get configfile dir path
 func (n *NginxConfigFileTemplete) GetConfigFileDirPath() string {
 	return n.configFileDirPath
 }
 
-//NewNginxTemplate new nginx main config
+// NewNginxTemplate new nginx main config
 func (n *NginxConfigFileTemplete) NewNginxTemplate(data *model.Nginx) error {
 	body, err := n.nginxTmpl.Write(data)
 	if err != nil {
@@ -107,53 +106,53 @@ func (n *NginxConfigFileTemplete) NewNginxTemplate(data *model.Nginx) error {
 	return nil
 }
 
-func (n *NginxConfigFileTemplete) writeFileNotCheck(first bool, configBody []byte, configFile string) (hasOldConfig bool, err error) {
-	if err := util.CheckAndCreateDir(path.Dir(configFile)); err != nil {
-		return false, fmt.Errorf("check or create dir %s failure %s", path.Dir(configFile), err.Error())
-	}
-	hasOldConfig = true
-	//backup
-	oldBody, err := ioutil.ReadFile(configFile)
-	if err != nil {
-		if err != os.ErrNotExist && strings.Contains(err.Error(), "no such file or directory") && !os.IsNotExist(err) {
-			logrus.Errorf("read old server config file failure %s", err.Error())
-			return false, err
-		}
-		hasOldConfig = false
-	}
+// func (n *NginxConfigFileTemplete) writeFileNotCheck(first bool, configBody []byte, configFile string) (hasOldConfig bool, err error) {
+// 	if err := util.CheckAndCreateDir(path.Dir(configFile)); err != nil {
+// 		return false, fmt.Errorf("check or create dir %s failure %s", path.Dir(configFile), err.Error())
+// 	}
+// 	hasOldConfig = true
+// 	//backup
+// 	oldBody, err := os.ReadFile(configFile)
+// 	if err != nil {
+// 		if err != os.ErrNotExist && strings.Contains(err.Error(), "no such file or directory") && !os.IsNotExist(err) {
+// 			logrus.Errorf("read old server config file failure %s", err.Error())
+// 			return false, err
+// 		}
+// 		hasOldConfig = false
+// 	}
 
-	logrus.Debugf("has old config : %v", hasOldConfig)
-	logrus.Debugf("old config : %v", string(oldBody))
+// 	logrus.Debugf("has old config : %v", hasOldConfig)
+// 	logrus.Debugf("old config : %v", string(oldBody))
 
-	if hasOldConfig {
-		if err := os.Rename(configFile, configFile+".bak"); err != nil {
-			logrus.Errorf("rename server config file failure %s", err.Error())
-			return false, err
-		}
-		//write new body
-		if oldBody != nil && !first {
-			configBody = append(oldBody, configBody...)
-			configBody = append(configBody, []byte("\n")...)
-		}
-	}
+// 	if hasOldConfig {
+// 		if err := os.Rename(configFile, configFile+".bak"); err != nil {
+// 			logrus.Errorf("rename server config file failure %s", err.Error())
+// 			return false, err
+// 		}
+// 		//write new body
+// 		if oldBody != nil && !first {
+// 			configBody = append(oldBody, configBody...)
+// 			configBody = append(configBody, []byte("\n")...)
+// 		}
+// 	}
 
-	logrus.Debugf("configBody is : %s", string(configBody))
+// 	logrus.Debugf("configBody is : %s", string(configBody))
 
-	cfile, err := os.OpenFile(configFile, os.O_CREATE|os.O_APPEND|os.O_RDWR, 0755)
-	if err != nil {
-		logrus.Errorf("open server config file failure %s", err.Error())
-		return hasOldConfig, err
-	}
-	defer cfile.Close()
-	c, err := cfile.Write(configBody)
-	if c < len(configBody) {
-		_, err = cfile.Write(configBody[c:])
-	}
+// 	cfile, err := os.OpenFile(configFile, os.O_CREATE|os.O_APPEND|os.O_RDWR, 0755)
+// 	if err != nil {
+// 		logrus.Errorf("open server config file failure %s", err.Error())
+// 		return hasOldConfig, err
+// 	}
+// 	defer cfile.Close()
+// 	c, err := cfile.Write(configBody)
+// 	if c < len(configBody) {
+// 		_, err = cfile.Write(configBody[c:])
+// 	}
 
-	return hasOldConfig, err
-}
+// 	return hasOldConfig, err
+// }
 
-//WriteServer write server config
+// WriteServer write server config
 func (n *NginxConfigFileTemplete) WriteServer(c option.Config, configtype, tenant string, servers ...*model.Server) error {
 	if tenant == "" {
 		tenant = "default"
@@ -216,7 +215,7 @@ func (n *NginxConfigFileTemplete) writeFile(first bool, configBody []byte, confi
 	}
 	//backup
 	noOldConfig := false
-	oldBody, err := ioutil.ReadFile(configFile)
+	oldBody, err := os.ReadFile(configFile)
 	if err != nil {
 		if err != os.ErrNotExist && strings.Contains(err.Error(), "no such file or directory") && !os.IsNotExist(err) {
 			logrus.Errorf("read old server config file failure %s", err.Error())
@@ -268,7 +267,7 @@ func (n *NginxConfigFileTemplete) writeFile(first bool, configBody []byte, confi
 	return nil
 }
 
-//ClearByTenant clear tenant config
+// ClearByTenant clear tenant config
 func (n *NginxConfigFileTemplete) ClearByTenant(tenant string) error {
 	tenantConfigFile := path.Join(n.configFileDirPath, "http", tenant)
 	if err := os.RemoveAll(tenantConfigFile); err != nil {
@@ -278,7 +277,7 @@ func (n *NginxConfigFileTemplete) ClearByTenant(tenant string) error {
 	return os.RemoveAll(tenantStreamConfigFile)
 }
 
-//NginxServerContext nginx server config
+// NginxServerContext nginx server config
 type NginxServerContext struct {
 	Servers     []*model.Server
 	TCPBackends []*model.Server
@@ -286,7 +285,7 @@ type NginxServerContext struct {
 	Set         option.Config
 }
 
-//NginxUpstreamContext nginx upstream config
+// NginxUpstreamContext nginx upstream config
 type NginxUpstreamContext struct {
 	Upstream *model.Upstream
 	Set      option.Config
@@ -299,10 +298,10 @@ type Template struct {
 	bp *BufferPool
 }
 
-//NewTemplate returns a new Template instance or an
-//error if the specified template file contains errors
+// NewTemplate returns a new Template instance or an
+// error if the specified template file contains errors
 func NewTemplate(fileName string) (*Template, error) {
-	tmplFile, err := ioutil.ReadFile(fileName)
+	tmplFile, err := os.ReadFile(fileName)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unexpected error reading template %v", tmplFile)
 	}

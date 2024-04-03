@@ -20,7 +20,7 @@ type Upstream struct {
 	// TODO sticky_cookie_insert
 }
 
-//Validation validation nginx parameters
+// Validation validation nginx parameters
 func (u Upstream) Validation() error {
 	return nil
 }

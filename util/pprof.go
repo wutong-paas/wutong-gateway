@@ -25,12 +25,12 @@ import (
 	"net/http/pprof"
 )
 
-//ServeMux -
+// ServeMux -
 type ServeMux interface {
 	HandleFunc(pattern string, funC http.HandlerFunc)
 }
 
-//ProfilerSetup pprof route
+// ProfilerSetup pprof route
 func ProfilerSetup(r ServeMux) {
 	r.HandleFunc("/vars", expVars)
 	r.HandleFunc("/debug/pprof/", pprof.Index)

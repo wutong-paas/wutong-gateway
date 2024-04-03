@@ -23,20 +23,20 @@ import (
 	"unsafe"
 )
 
-//ToString []byte to string
-//BenchmarkToString-4     30000000                42.0 ns/op
+// ToString []byte to string
+// BenchmarkToString-4     30000000                42.0 ns/op
 func ToString(b []byte) string {
 	return *(*string)(unsafe.Pointer(&b))
 }
 
-//ToByte string to []byte
-//BenchmarkToByte-4       2000000000               0.36 ns/op
+// ToByte string to []byte
+// BenchmarkToByte-4       2000000000               0.36 ns/op
 func ToByte(v string) []byte {
 	sh := (*reflect.StringHeader)(unsafe.Pointer(&v))
 	return *(*[]byte)(unsafe.Pointer(sh))
 }
 
-//StringArrayContains string array contains
+// StringArrayContains string array contains
 func StringArrayContains(list []string, source string) bool {
 	for _, l := range list {
 		if l == source {
@@ -46,7 +46,7 @@ func StringArrayContains(list []string, source string) bool {
 	return false
 }
 
-//Reverse reverse sort string array
+// Reverse reverse sort string array
 func Reverse(source []string) []string {
 	for i := 0; i < len(source)/2; i++ {
 		source[i], source[len(source)-i-1] = source[len(source)-i-1], source[i]

@@ -18,7 +18,7 @@
 
 package v1
 
-//Meta Common meta
+// Meta Common meta
 type Meta struct {
 	Index      int64  `json:"index"`
 	Name       string `json:"name"`
@@ -27,7 +27,7 @@ type Meta struct {
 	PluginName string `json:"plugin_name"`
 }
 
-//Equals -
+// Equals -
 func (m *Meta) Equals(c *Meta) bool {
 	if m == c {
 		return true

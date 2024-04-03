@@ -18,7 +18,7 @@
 
 package v1
 
-//Pool Application service endpoints pool
+// Pool Application service endpoints pool
 type Pool struct {
 	Meta
 	//application service id
@@ -37,7 +37,7 @@ type Pool struct {
 	Nodes             []*Node           `json:"nodes"`
 }
 
-//Equals -
+// Equals -
 func (p *Pool) Equals(c *Pool) bool {
 	if p == c {
 		return true

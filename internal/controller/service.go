@@ -20,7 +20,7 @@ package controller
 
 import v1 "github.com/wutong-paas/wutong-gateway/internal/v1"
 
-//GWServicer -
+// GWServicer -
 type GWServicer interface {
 	Start(errCh chan error) error
 	Stop() error

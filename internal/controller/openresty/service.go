@@ -49,13 +49,13 @@ type OrService struct {
 	// stopLock is used to enforce that only a single call to Stop send at
 	// a given time. We allow stopping through an HTTP endpoint and
 	// allowing concurrent stoppers leads to stack traces.
-	stopLock      *sync.Mutex
+	// stopLock      *sync.Mutex
 	ocfg          *option.Config
 	nginxProgress *os.Process
 	configManage  *template.NginxConfigFileTemplete
 }
 
-//CreateOpenrestyService create openresty service
+// CreateOpenrestyService create openresty service
 func CreateOpenrestyService(config *option.Config, isShuttingDown *bool) *OrService {
 	gws := &OrService{
 		IsShuttingDown: isShuttingDown,
@@ -147,9 +147,9 @@ func (o *OrService) Stop() error {
 func (o *OrService) PersistConfig(conf *v1.Config) error {
 	l7srv, l4srv := o.getNgxServer(conf)
 	// http server
-	o.configManage.WriteServer(*o.ocfg, "http", "", l7srv...)
+	_ = o.configManage.WriteServer(*o.ocfg, "http", "", l7srv...)
 	// tcp and udp server
-	o.configManage.WriteServer(*o.ocfg, "stream", "", l4srv...)
+	_ = o.configManage.WriteServer(*o.ocfg, "stream", "", l4srv...)
 
 	// reload nginx
 	if err := nginxcmd.Reload(); err != nil {

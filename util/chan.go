@@ -23,7 +23,7 @@ import (
 	"time"
 )
 
-//SendNoBlocking 无阻塞发送
+// SendNoBlocking 无阻塞发送
 func SendNoBlocking(m []byte, ch chan []byte) {
 	select {
 	case ch <- m:
@@ -31,7 +31,7 @@ func SendNoBlocking(m []byte, ch chan []byte) {
 	}
 }
 
-//IntermittentExec 间歇性执行
+// IntermittentExec 间歇性执行
 func IntermittentExec(ctx context.Context, f func(), t time.Duration) {
 	tick := time.NewTicker(t)
 	defer tick.Stop()
@@ -45,7 +45,7 @@ func IntermittentExec(ctx context.Context, f func(), t time.Duration) {
 	}
 }
 
-//Exec 上下文执行
+// Exec 上下文执行
 func Exec(ctx context.Context, f func() error, wait time.Duration) error {
 	timer := time.NewTimer(wait)
 	defer timer.Stop()

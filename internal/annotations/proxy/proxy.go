@@ -50,7 +50,7 @@ type Config struct {
 	SetHeaders          map[string]string `json:"setHeaders"`
 }
 
-//Validation validation nginx parameters
+// Validation validation nginx parameters
 func (s *Config) Validation() error {
 	defBackend := config.NewDefault()
 	for k, v := range s.SetHeaders {
@@ -95,7 +95,7 @@ func (s *Config) validateBuffering(buffering string) bool {
 	return buffering == "off" || buffering == "on"
 }
 
-//NewProxyConfig new proxy config
+// NewProxyConfig new proxy config
 func NewProxyConfig() Config {
 	defBackend := config.NewDefault()
 	return Config{

@@ -4,10 +4,10 @@ import "github.com/wutong-paas/wutong-gateway/cmd/option"
 
 // HTTP contains data for nginx http configuration
 type HTTP struct {
-	DefaultType          string
-	SendFile             bool
-	KeepaliveTimeout     Time
-	keepaliveRequests    int
+	DefaultType      string
+	SendFile         bool
+	KeepaliveTimeout Time
+	// keepaliveRequests    int
 	ClientMaxBodySize    Size
 	ClientBodyBufferSize Size
 	ProxyConnectTimeout  Time

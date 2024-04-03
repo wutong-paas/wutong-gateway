@@ -20,7 +20,7 @@ package util
 
 import "net"
 
-//CheckIP Verify IP address validity
+// CheckIP Verify IP address validity
 func CheckIP(ip string) bool {
 	i := net.ParseIP(ip)
 	return i != nil && !i.IsLoopback() && !i.IsUnspecified()

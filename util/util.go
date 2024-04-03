@@ -20,7 +20,6 @@ package util
 
 import (
 	"fmt"
-	"io/ioutil"
 	"net"
 	"os"
 	"path/filepath"
@@ -38,7 +37,7 @@ func BackendName(name string, ns string) string {
 	return name
 }
 
-//CheckAndCreateDir check and create dir
+// CheckAndCreateDir check and create dir
 func CheckAndCreateDir(path string) error {
 	if subPathExists, err := FileExists(path); err != nil {
 		return fmt.Errorf("Could not determine if subPath %s exists; will not attempt to change its permissions", path)
@@ -58,7 +57,7 @@ func CheckAndCreateDir(path string) error {
 	return nil
 }
 
-//FileExists check file exist
+// FileExists check file exist
 func FileExists(filename string) (bool, error) {
 	if _, err := os.Stat(filename); os.IsNotExist(err) {
 		return false, nil
@@ -68,9 +67,9 @@ func FileExists(filename string) (bool, error) {
 	return true, nil
 }
 
-//DirIsEmpty 验证目录是否为空
+// DirIsEmpty 验证目录是否为空
 func DirIsEmpty(dir string) bool {
-	infos, err := ioutil.ReadDir(dir)
+	infos, err := os.ReadDir(dir)
 	if len(infos) == 0 || err != nil {
 		return true
 	}
@@ -80,7 +79,7 @@ func DirIsEmpty(dir string) bool {
 // GetDirNameList get all lower level dir
 func GetDirNameList(dirpath string, level int) ([]string, error) {
 	var dirlist []string
-	list, err := ioutil.ReadDir(dirpath)
+	list, err := os.ReadDir(dirpath)
 	if err != nil {
 		return nil, err
 	}
@@ -102,7 +101,7 @@ func GetDirNameList(dirpath string, level int) ([]string, error) {
 
 func GetDirList(dirpath string, level int) ([]string, error) {
 	var dirlist []string
-	list, err := ioutil.ReadDir(dirpath)
+	list, err := os.ReadDir(dirpath)
 	if err != nil {
 		return nil, err
 	}
@@ -122,7 +121,7 @@ func GetDirList(dirpath string, level int) ([]string, error) {
 	return dirlist, nil
 }
 
-//LocalIP 获取本机 ip
+// LocalIP 获取本机 ip
 // 获取第一个非 loopback ip
 func LocalIP() (net.IP, error) {
 	tables, err := net.Interfaces()

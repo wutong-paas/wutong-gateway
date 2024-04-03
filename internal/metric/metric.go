@@ -79,7 +79,7 @@ func (c *collector) SetHosts(hosts sets.String) {
 	c.socket.SetHosts(hosts)
 }
 
-//RemoveHostMetric -
+// RemoveHostMetric -
 func (c *collector) RemoveHostMetric(hosts []string) {
 	c.socket.RemoveMetrics(hosts, c.registry)
 }

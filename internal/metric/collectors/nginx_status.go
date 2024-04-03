@@ -23,16 +23,16 @@ import (
 	"github.com/wutong-paas/wutong-gateway/internal/controller/openresty/nginxcmd"
 )
 
-//NginxCmdMetric -
+// NginxCmdMetric -
 type NginxCmdMetric struct {
 }
 
-//Describe -
+// Describe -
 func (n *NginxCmdMetric) Describe(ch chan<- *prometheus.Desc) {
 	nginxcmd.PromethesuScrape(ch)
 }
 
-//Collect -
+// Collect -
 func (n *NginxCmdMetric) Collect(ch chan<- prometheus.Metric) {
 	nginxcmd.PrometheusCollect(ch)
 }

@@ -55,24 +55,24 @@ func init() {
 	}
 }
 
-//SetDefaultNginxConf set
+// SetDefaultNginxConf set
 func SetDefaultNginxConf(path string) {
 	defaultNginxConf = path
 }
 
-//PromethesuScrape prometheus scrape
+// PromethesuScrape prometheus scrape
 func PromethesuScrape(ch chan<- *prometheus.Desc) {
 	updateCount.Describe(ch)
 	errUpdateCount.Describe(ch)
 }
 
-//PrometheusCollect prometheus collect
+// PrometheusCollect prometheus collect
 func PrometheusCollect(ch chan<- prometheus.Metric) {
 	updateCount.Collect(ch)
 	errUpdateCount.Collect(ch)
 }
 
-//CreateNginxCommand create nginx command
+// CreateNginxCommand create nginx command
 func CreateNginxCommand(args ...string) *exec.Cmd {
 	var cmdArgs []string
 	cmdArgs = append(cmdArgs, "-c", defaultNginxConf)
@@ -81,7 +81,7 @@ func CreateNginxCommand(args ...string) *exec.Cmd {
 	return cmd
 }
 
-//ExecNginxCommand exec nginx command
+// ExecNginxCommand exec nginx command
 func ExecNginxCommand(args ...string) error {
 	cmd := CreateNginxCommand(args...)
 	if body, err := cmd.Output(); err != nil {
@@ -96,7 +96,7 @@ func ExecNginxCommand(args ...string) error {
 	return nil
 }
 
-//CheckConfig check nginx config file
+// CheckConfig check nginx config file
 func CheckConfig() error {
 	if err := ExecNginxCommand("-t"); err != nil {
 		return ErrorCheck
@@ -104,7 +104,7 @@ func CheckConfig() error {
 	return nil
 }
 
-//Reload reload nginx config
+// Reload reload nginx config
 func Reload() error {
 	updateCount.Inc()
 	if err := ExecNginxCommand("-s", "reload"); err != nil {

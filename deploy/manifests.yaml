@@ -42,7 +42,7 @@ spec:
       restartPolicy: Always
       containers:
         - name: gateway
-          image: swr.cn-southwest-2.myhuaweicloud.com/wutong-gateway:v0.1.0
+          image: swr.cn-southwest-2.myhuaweicloud.com/wutong/wutong-gateway:v0.1.0
           imagePullPolicy: Always
           resources:
             limits:

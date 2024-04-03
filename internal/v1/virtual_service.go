@@ -32,7 +32,7 @@ const (
 	ProtocolSCTP Protocol = "SCTP"
 )
 
-//VirtualService VirtualService
+// VirtualService VirtualService
 type VirtualService struct {
 	Meta
 	Enabled  bool            `json:"enable"`
@@ -62,7 +62,7 @@ type VirtualService struct {
 	ExtensionConfig  map[string]interface{} `json:"extension_config"`
 }
 
-//Equals equals vs
+// Equals equals vs
 func (v *VirtualService) Equals(c *VirtualService) bool {
 	if v == c {
 		return true

@@ -21,7 +21,6 @@ package cluster
 import (
 	"context"
 	"net"
-	"sync"
 
 	"github.com/sirupsen/logrus"
 
@@ -29,8 +28,8 @@ import (
 	"github.com/wutong-paas/wutong-gateway/util"
 )
 
-//IPManager ip manager
-//Gets all available IP addresses for synchronizing the current node
+// IPManager ip manager
+// Gets all available IP addresses for synchronizing the current node
 type IPManager interface {
 	//Whether the IP address belongs to the current node
 	IPInCurrentHost(net.IP) bool
@@ -44,13 +43,13 @@ type ipManager struct {
 	ctx    context.Context
 	cancel context.CancelFunc
 	IPPool *util.IPPool
-	lock   sync.Mutex
+	// lock   sync.Mutex
 	config option.Config
 	//An IP pool change triggers a forced update of the gateway policy
 	needUpdate chan util.IPEVENT
 }
 
-//CreateIPManager create ip manage
+// CreateIPManager create ip manage
 func CreateIPManager(ctx context.Context, config option.Config) (IPManager, error) {
 	newCtx, cancel := context.WithCancel(ctx)
 	IPPool := util.NewIPPool(config.IgnoreInterface)
@@ -67,7 +66,7 @@ func (i *ipManager) NeedUpdateGatewayPolicy() <-chan util.IPEVENT {
 	return i.needUpdate
 }
 
-//IPInCurrentHost Whether the IP address belongs to the current node
+// IPInCurrentHost Whether the IP address belongs to the current node
 func (i *ipManager) IPInCurrentHost(in net.IP) bool {
 	for _, exit := range i.IPPool.GetHostIPs() {
 		if exit.Equal(in) {

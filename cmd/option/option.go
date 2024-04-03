@@ -41,7 +41,7 @@ func NewGWServer() *GWServer {
 	return &GWServer{}
 }
 
-//Config contains all configuration
+// Config contains all configuration
 type Config struct {
 	K8SConfPath string
 	ListenPorts ListenPorts
@@ -123,7 +123,7 @@ func (g *GWServer) SetLog() {
 	logrus.SetLevel(level)
 }
 
-//CheckConfig check config
+// CheckConfig check config
 func (g *GWServer) CheckConfig() error {
 	if g.NodeName == "" {
 		g.NodeName, _ = os.Hostname()

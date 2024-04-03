@@ -171,7 +171,7 @@ func (gwc *GWController) syncGateway(key interface{}) error {
 	return nil
 }
 
-//NewGWController new Gateway controller
+// NewGWController new Gateway controller
 func NewGWController(ctx context.Context, clientset kubernetes.Interface, cfg *option.Config, mc metric.Collector, node *cluster.NodeManager) (*GWController, error) {
 	gwc := &GWController{
 		updateCh:        channels.NewRingChannel(1024),
@@ -194,24 +194,24 @@ func NewGWController(ctx context.Context, clientset kubernetes.Interface, cfg *o
 	return gwc, nil
 }
 
-func poolsEqual(a []*v1.Pool, b []*v1.Pool) bool {
-	if len(a) != len(b) {
-		return false
-	}
-	for _, ap := range a {
-		flag := false
-		for _, bp := range b {
-			if ap.Equals(bp) {
-				flag = true
-				break
-			}
-		}
-		if !flag {
-			return false
-		}
-	}
-	return true
-}
+// func poolsEqual(a []*v1.Pool, b []*v1.Pool) bool {
+// 	if len(a) != len(b) {
+// 		return false
+// 	}
+// 	for _, ap := range a {
+// 		flag := false
+// 		for _, bp := range b {
+// 			if ap.Equals(bp) {
+// 				flag = true
+// 				break
+// 			}
+// 		}
+// 		if !flag {
+// 			return false
+// 		}
+// 	}
+// 	return true
+// }
 
 // getHosts returns a list of the hostsnames and tobe remove hostname
 // that are not associated anymore to the NGINX configuration.

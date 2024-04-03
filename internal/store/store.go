@@ -23,7 +23,6 @@ import (
 	"crypto/x509"
 	"encoding/pem"
 	"fmt"
-	"io/ioutil"
 	"net"
 	"os"
 	"reflect"
@@ -82,7 +81,7 @@ var l4PoolMap = make(map[string]struct{})
 // l4PoolBackendMap is the mapping between backend and pool
 var l4PoolBackendMap map[string][]backend
 
-//Storer is the interface that wraps the required methods to gather information
+// Storer is the interface that wraps the required methods to gather information
 type Storer interface {
 	// list endpoints pool
 	ListPool() ([]*v1.Pool, []*v1.Pool)
@@ -152,12 +151,12 @@ const ingressClassName = "wutong-gateway"
 
 func isEffectivedIngress(ing interface{}) bool {
 	if ingress, ok := ing.(*networkingv1.Ingress); ok {
-		return ingress.Spec.IngressClassName != nil && *ingress.Spec.IngressClassName == ingressClassName
+		return ingress.Spec.IngressClassName == nil || *ingress.Spec.IngressClassName == ingressClassName
 	} else if ingress, ok := ing.(*betav1.Ingress); ok {
-		if class, ok := ingress.Annotations["kubernetes.io/ingress.class"]; ok {
-			return class == ingressClassName
-		}
+		class, ok := ingress.Annotations["kubernetes.io/ingress.class"]
+		return !ok || class == ingressClassName
 	}
+
 	return false
 }
 
@@ -1103,10 +1102,10 @@ func (s *k8sStore) getCertificatePem(secrKey string) (*v1.SSLCert, error) {
 		return nil, fmt.Errorf("cant not create directory %s: %v", CertificatePath, e)
 	}
 
-	if e := ioutil.WriteFile(filename, buffer.Bytes(), 0666); e != nil {
+	if e := os.WriteFile(filename, buffer.Bytes(), 0666); e != nil {
 		return nil, fmt.Errorf("cant not write data to %s: %v", filename, e)
 	}
-	fileContent, err := ioutil.ReadFile(filename)
+	fileContent, err := os.ReadFile(filename)
 	if err != nil {
 		return nil, fmt.Errorf("read certificate file failed: %s", err.Error())
 	}

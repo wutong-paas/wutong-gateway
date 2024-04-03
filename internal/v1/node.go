@@ -18,7 +18,7 @@
 
 package v1
 
-//Node Application service endpoint
+// Node Application service endpoint
 type Node struct {
 	Meta
 	Host        string `json:"host"`
@@ -32,7 +32,7 @@ type Node struct {
 	FailTimeout string `json:"fail_timeout"`
 }
 
-//Equals -
+// Equals -
 func (n *Node) Equals(c *Node) bool { //
 	if n == c {
 		return true

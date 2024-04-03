@@ -29,7 +29,7 @@ type Controller struct {
 
 	activeDomain *prometheus.GaugeVec
 
-	constLabels prometheus.Labels
+	// constLabels prometheus.Labels
 }
 
 // NewController creates a new prometheus collector for the

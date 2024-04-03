@@ -29,6 +29,7 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/collectors"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/sirupsen/logrus"
 
@@ -44,7 +45,7 @@ import (
 	k8sutil "github.com/wutong-paas/wutong-gateway/util/k8s"
 )
 
-//Run start run
+// Run start run
 func Run(s *option.GWServer) error {
 	logrus.Info("start gateway...")
 	errCh := make(chan error, 1)
@@ -72,8 +73,8 @@ func Run(s *option.GWServer) error {
 	defer node.Stop()
 
 	reg := prometheus.NewRegistry()
-	reg.MustRegister(prometheus.NewGoCollector())
-	reg.MustRegister(prometheus.NewProcessCollector(prometheus.ProcessCollectorOpts{}))
+	reg.MustRegister(collectors.NewGoCollector())
+	reg.MustRegister(collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}))
 	mc := metric.NewDummyCollector()
 	if s.Config.EnableMetrics {
 		mc, err = metric.NewCollector(s.NodeName, reg)
@@ -106,7 +107,7 @@ func Run(s *option.GWServer) error {
 
 	logrus.Info("wutong gateway start success!")
 
-	term := make(chan os.Signal)
+	term := make(chan os.Signal, 1)
 	signal.Notify(term, os.Interrupt, syscall.SIGTERM, syscall.SIGQUIT)
 	select {
 	case <-term:

@@ -76,7 +76,7 @@ func WaitUntilPortIsAvailable(port int) {
 					glog.Errorf("unexpected error obtaining process information: %v", err)
 					continue
 				}
-				osp.Signal(syscall.SIGQUIT)
+				_ = osp.Signal(syscall.SIGQUIT)
 			}
 		}
 		time.Sleep(100 * time.Millisecond)

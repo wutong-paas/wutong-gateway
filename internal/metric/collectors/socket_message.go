@@ -23,7 +23,6 @@ package collectors
 
 import (
 	"io"
-	"io/ioutil"
 	"net"
 	"os"
 
@@ -331,7 +330,7 @@ func (sc *SocketCollector) RemoveMetrics(hosts []string, registry prometheus.Gat
 			}
 			// remove labels that are constant
 			deleteConstants(labels)
-			ingKey, ok := labels["host"]
+			ingKey := labels["host"]
 			if !toRemove.Has(ingKey) {
 				continue
 			}
@@ -379,7 +378,7 @@ func (sc SocketCollector) Collect(ch chan<- prometheus.Metric) {
 // handleMessages process the content received in a network connection
 func handleMessages(conn io.ReadCloser, fn func([]byte)) {
 	defer conn.Close()
-	data, err := ioutil.ReadAll(conn)
+	data, err := io.ReadAll(conn)
 	if err != nil {
 		return
 	}

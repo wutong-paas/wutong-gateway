@@ -27,7 +27,7 @@ import (
 	apiv1 "k8s.io/api/core/v1"
 )
 
-//Config update config
+// Config update config
 type Config struct {
 	Backends []*Backend `json:"backends"`
 }
@@ -81,7 +81,7 @@ type Endpoint struct {
 	Target *apiv1.ObjectReference `json:"target,omitempty"`
 }
 
-//CreateBackendByPool create backend by pool
+// CreateBackendByPool create backend by pool
 func CreateBackendByPool(pool *v1.Pool) *Backend {
 	var backend = Backend{
 		Name: pool.Name,

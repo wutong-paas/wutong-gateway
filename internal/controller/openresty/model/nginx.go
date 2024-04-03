@@ -7,7 +7,7 @@ import (
 	"github.com/wutong-paas/wutong-gateway/cmd/option"
 )
 
-//Nginx nginx config model
+// Nginx nginx config model
 type Nginx struct {
 	WorkerProcesses    int
 	WorkerRlimitNofile int
@@ -26,14 +26,14 @@ type EventLog struct {
 	Level string
 }
 
-//Events nginx events config model
+// Events nginx events config model
 type Events struct {
 	WorkerConnections int
 	EnableEpoll       bool
 	EnableMultiAccept bool
 }
 
-//NewNginx new nginx config
+// NewNginx new nginx config
 func NewNginx(conf option.Config) *Nginx {
 	if conf.NginxUser != "" {
 		if u, err := user.Current(); err == nil {

@@ -20,16 +20,16 @@ package v1
 
 import "github.com/sirupsen/logrus"
 
-//LoadBalancingType Load Balancing type
+// LoadBalancingType Load Balancing type
 type LoadBalancingType string
 
-//RoundRobin Assign requests in turn to each node.
+// RoundRobin Assign requests in turn to each node.
 var RoundRobin LoadBalancingType = "round-robin"
 
-//CookieSessionAffinity session affinity by cookie
+// CookieSessionAffinity session affinity by cookie
 var CookieSessionAffinity LoadBalancingType = "cookie-session-affinity"
 
-//GetLoadBalancingType get load balancing
+// GetLoadBalancingType get load balancing
 func GetLoadBalancingType(s string) LoadBalancingType {
 	switch s {
 	case "round-robin":
@@ -41,22 +41,22 @@ func GetLoadBalancingType(s string) LoadBalancingType {
 	}
 }
 
-//Monitor monitor type
+// Monitor monitor type
 type Monitor string
 
-//ConnectMonitor tcp connect monitor
+// ConnectMonitor tcp connect monitor
 var ConnectMonitor Monitor = "connect"
 
-//PingMonitor ping monitor
+// PingMonitor ping monitor
 var PingMonitor Monitor = "ping"
 
-//SimpleHTTP http monitor
+// SimpleHTTP http monitor
 var SimpleHTTP Monitor = "simple http"
 
-//SimpleHTTPS http monitor
+// SimpleHTTPS http monitor
 var SimpleHTTPS Monitor = "simple https"
 
-//HTTPRule Application service access rule for http
+// HTTPRule Application service access rule for http
 type HTTPRule struct {
 	Meta
 	Domain       string            `json:"domain"`
@@ -68,7 +68,7 @@ type HTTPRule struct {
 	PoolName     string            `json:"pool_name"`
 }
 
-//RedirectConfig Config returns the redirect configuration for an  rule
+// RedirectConfig Config returns the redirect configuration for an  rule
 type RedirectConfig struct {
 	URL       string `json:"url"`
 	Code      int    `json:"code"`

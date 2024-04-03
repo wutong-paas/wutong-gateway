@@ -19,11 +19,10 @@ package rewrite
 import (
 	"strings"
 
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-
 	"github.com/sirupsen/logrus"
 	"github.com/wutong-paas/wutong-gateway/internal/annotations/parser"
 	"github.com/wutong-paas/wutong-gateway/internal/annotations/resolver"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 // Config describes the per location redirect config
@@ -105,7 +104,7 @@ func (a rewrite) Parse(meta *metav1.ObjectMeta) (interface{}, error) {
 	var err error
 	config := &Config{}
 
-	rewrites, err := parser.GetStringAnnotationWithPrefix("rewrite-", meta)
+	rewrites, _ := parser.GetStringAnnotationWithPrefix("rewrite-", meta)
 	config.Rewrites = convert(rewrites)
 
 	config.Target, _ = parser.GetStringAnnotation("rewrite-target", meta)
